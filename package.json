@@ -26,5 +26,14 @@
   "bugs": {
     "url": "https://github.com/danigb/music.gamut/issues"
   },
-  "homepage": "https://github.com/danigb/music.gamut#readme"
+  "homepage": "https://github.com/danigb/music.gamut#readme",
+  "devDependencies": {
+    "vows": "^0.8.1"
+  },
+  "dependencies": {
+    "curry": "^1.2.0",
+    "music.notation": "file:../notation",
+    "music.operator": "file:../operator",
+    "music.transpose": "file:../transpose"
+  }
 }
