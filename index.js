@@ -2,10 +2,15 @@
 
 var notation = require('music.notation')
 var operator = require('music.operator')
-var op = require('./operations')
 
 var isArray = Array.isArray
 var identity = function (e) { return e }
+// simple curryfication for 2 args function
+function _curry (fn) {
+  return function (a, b) {
+    return arguments.length === 1 ? function (b) { return fn(a, b) } : fn(a, b)
+  }
+}
 // separator pattern to convert a list string to an array
 var SEP = /\s*\|\s*|\s*,\s*|\s+/
 
@@ -37,9 +42,10 @@ function gamut (source, fn) {
 }
 
 gamut.apply = _curry(function (fn, source) {
-  var isParsed = isArray(source) && isArray(source[0])
-  var g = isParsed ? source : gamut.split(source).map(notation.arr)
-  return isParsed ? fn(g) : fn(g).map(notation.str)
+  var isGamut = isArray(source) && isArray(source[0])
+  var g = isGamut ? source : gamut.split(source).map(notation.arr)
+  var res = fn(g)
+  return !isGamut && isArray(res[0]) ? res.map(notation.str) : res
 })
 
 gamut.map = _curry(function (fn, source) {
@@ -49,13 +55,6 @@ gamut.map = _curry(function (fn, source) {
 gamut.filter = _curry(function (fn, source) {
   return gamut.apply(function (g) { return g.filter(fn) }, source)
 })
-
-function _curry (fn) {
-  return function (a, b) {
-    if (arguments.length === 1) return function (b) { return fn(a, b) }
-    else return fn(a, b)
-  }
-}
 
 gamut.split = function (source) {
   if (isArray(source)) return source
@@ -103,48 +102,32 @@ gamut.transpose = function (interval, source) {
  * gamut.distance('C2', 'C') // => ['-15P']
  */
 gamut.distances = function (tonic, source) {
+  var src = gamut.split(source)
+  tonic = tonic || src[0]
   var t = notation.arr(tonic)
   if (tonic && !t) return []
-  console.log(op.distances(t, gamut.parse(source)))
-  return op.distances(t, gamut.parse(source)).map(notation.str)
+  return gamut.map(function (p) {
+    return p ? operator.subtract(t, operator.setDefaultOctave(0, p)) : null
+  }, src)
 }
 
 /**
- * Remove duplicates __and__ nulls
+ * Get ascending gamut: remove nulls, duplications and sort by pitch (freq)
  *
- * @name uniq
+ * @name ascending
  * @function
- * @param {String|Array|Array<Array>} source - the gamut
- * @return {Array<String>} the notes or intervals
- */
-gamut.uniq = function (source) {
-  return gamut.notes(op.uniq(gamut.parse(source)))
-}
-
-/**
- * Get the gamut pitch set as binary number representation
+ * @param {String|Array} gamut - the gamut
+ * @return {Array} the ascending gamut
  *
- * @name binarySet
- * @function
- * @param {String|Array|Array<Array>} source - the gamut
- * @return {String} the binary number
+ * @example
+ * gamut.ascending('E e D c') // => ['C', 'D', 'E']
  */
-gamut.binarySet = function (source) {
-  return op.binarySet(gamut.parse(source))
-}
-
-/**
- * Get a pitch set from a binary set number and a tonic
- *
- * @name fromBinarySet
- * @function
- * @param {String|Array|Array<Array>} source - the gamut
- * @param {String} tonic - (Optional) the first note of the set ('C' by default)
- * @return {Array<String>} the set pitch classes (note names without octaves)
- */
-gamut.fromBinarySet = function (source, tonic) {
-  tonic = tonic || [0, 0, 0]
-  return gamut.notes(op.transpose(notation.str(tonic), op.fromBinarySet(source)))
-}
+gamut.ascending = gamut.apply(function (gamut) {
+  var heights = gamut.sort(operator.compare).map(operator.height)
+  return heights.reduce(function (uniq, value, index) {
+    if (index === 0 || heights[index - 1] !== value) uniq.push(gamut[index])
+    return uniq
+  }, [])
+})
 
 module.exports = gamut

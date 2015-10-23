@@ -1,7 +1,7 @@
 {
   "name": "music.gamut",
-  "version": "0.0.0",
-  "description": "Lot of notes",
+  "version": "0.0.1",
+  "description": "Manipulate group of music notes in a functional way",
   "main": "index.js",
   "scripts": {
     "test": "vows --spec test/*.js",
