@@ -3,6 +3,9 @@ var assert = require('assert')
 var gamut = require('../')
 
 vows.describe('gamut').addBatch({
+  'gamut main': function () {
+    assert.deepEqual(gamut('c2 d#3 blah bb4 1P'), ['C2', 'D#3', null, 'Bb4', '1P'])
+  },
   'gamut.apply': function () {
     var fn = function (g) { return g.concat([ [2, 1, 2, 0] ]) }
     assert.deepEqual(gamut.apply(fn, 'A'), ['A', 'E#2'])

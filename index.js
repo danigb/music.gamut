@@ -15,27 +15,18 @@ function _curry (fn) {
 var SEP = /\s*\|\s*|\s*,\s*|\s+/
 
 /**
- * Get a gamut: create an array from a source. The source can be a string with items separated by
+ * Get a gamut: create an array of notes or intervals from a source.
+ * The source can be a string with items separated by
  * spaces, commas or bars (`|`), an array or an object.
- *
- * If the source is an array, it's returned as it. If its an object you get an
- * array with the object as the only element.
- *
- * This function does not perform any transformation to the items of the array.
- * This function __always__ return an array, even if its empty
  *
  * @name gamut
  * @function
  * @param {String|Array|Object} source - the source
+ * @param {Function} transform - (Optional) a function that transforms the gamut
  * @return {Array} the source converted to an array (never null)
  *
  * @example
- * gamut('c d e') // => [ 'c', 'd', 'e' ]
- * gamut('CMaj7 | Dm7 G7') // => [ 'CMaj7', 'Dm7', 'G7' ]
- * gamut('1, 2, 3') // => ['1', '2', '3']
- * gamut([1, 'a', 3]) // => [1, 'a', 3]
- * gamut(object) // => [ object ]
- * gamut(null) // => [ ]
+ * gamut('cb d3 e') // => [ 'Cb', 'D3', 'E' ]
  */
 function gamut (source, fn) {
   return gamut.apply(fn || identity, source)
