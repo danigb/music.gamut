@@ -29,19 +29,5 @@ vows.describe('gamut').addBatch({
     assert.deepEqual(gamut.filter(isIntrvl, '1 C 2m D3'), [ '1P', '2m' ])
     var intervals = gamut.filter(isIntrvl)
     assert.deepEqual(intervals('C2 D3 3 4#'), ['3M', '4A'])
-  },
-  'gamut.transpose': function () {
-    assert.deepEqual(gamut.transpose('2M', 'C D E'), ['D', 'E', 'F#'])
-    assert.deepEqual(gamut.transpose('2M', 'C2 D3 E4'), ['D2', 'E3', 'F#4'])
-    assert.deepEqual(gamut.transpose('C', '1 2 3'), [ 'C', 'D', 'E' ])
-    assert.deepEqual(gamut.transpose('C2', '1 2 3'), [ 'C2', 'D2', 'E2' ])
-    assert.deepEqual(gamut.transpose('2', '1 2 3'), [ '2M', '3M', '4A' ])
-  },
-  'gamut.distances': function () {
-    assert.deepEqual(gamut.distances('C2', 'C2 D2 E2 F#2'), [ '1P', '2M', '3M', '4A' ])
-    assert.deepEqual(gamut.distances(null, 'C2 D2 E2 F#2'), [ '1P', '2M', '3M', '4A' ])
-  },
-  'gamut.ascending': function () {
-    assert.deepEqual(gamut.ascending('c1 d C c e'), ['C', 'D', 'E', 'C1'])
   }
 }).export(module)

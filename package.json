@@ -1,14 +1,14 @@
 {
   "name": "music.gamut",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Manipulate group of music notes in a functional way",
   "main": "index.js",
   "scripts": {
     "test": "vows --spec test/*.js",
     "docs": "docme API.md",
-    "browserify": "browserify --full-paths index.js > dist/music.gamut.js && browserify index.js | uglifyjs > dist/music.gamut.min.js",
-    "discify": "discify dist/music.gamut.js > dist/music.gamut.html",
-    "dist": "npm run browserify && npm run discify && ls -all dist/*",
+    "browserify": "browserify --full-paths index.js > dist/music.gamut.js && browserify --full-paths index.js | uglifyjs > dist/music.gamut.min.js",
+    "disc": "discify dist/music.gamut.min.js > dist/disc.html",
+    "dist": "npm run browserify && ls -all dist/",
     "coverage": "istanbul cover vows test/*.js",
     "cover": "npm run coverage && open ./coverage/lcov-report/index.html",
     "benchmarks": "node test/benchmarks/*.js",
@@ -21,7 +21,10 @@
   },
   "keywords": [
     "music",
-    "music.kit"
+    "music.kit",
+    "notes",
+    "intervals",
+    "gamut"
   ],
   "author": "danigb",
   "license": "MIT",
@@ -33,8 +36,6 @@
     "vows": "^0.8.1"
   },
   "dependencies": {
-    "music.notation": "file:../notation",
-    "music.operator": "file:../operator",
-    "music.transpose": "file:../transpose"
+    "music.notation": "file:../notation"
   }
 }

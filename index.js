@@ -1,7 +1,6 @@
 'use strict'
 
 var notation = require('music.notation')
-var operator = require('music.operator')
 
 var isArray = Array.isArray
 var identity = function (e) { return e }
@@ -32,6 +31,21 @@ function gamut (source, fn) {
   return gamut.apply(fn || identity, source)
 }
 
+/**
+ * Apply a function to a gamut.
+ *
+ * The interesting part is that the callback function will receive always an
+ * array with the pitches in array-notation. `gamut.apply` will do the conversion
+ * to array-notation and back to strings.
+ *
+ * @param {Function} fn - the function to apply
+ * @param {String|Array} source - the source of the gamut
+ * @return {Array} the gamut after apply the fn
+ *
+ * @example
+ * var addStep = function(p) { return [p[0] + 1, p[1], p[2]] }
+ * gamut.apply(addStep, 'C D E') // => ['D', 'E', 'F']
+ */
 gamut.apply = _curry(function (fn, source) {
   var isGamut = isArray(source) && isArray(source[0])
   var g = isGamut ? source : gamut.split(source).map(notation.arr)
@@ -39,86 +53,54 @@ gamut.apply = _curry(function (fn, source) {
   return !isGamut && isArray(res[0]) ? res.map(notation.str) : res
 })
 
+/**
+ * Map a function to each element of the gamut.
+ *
+ * The callback function will receive the elements in array-notation
+ *
+ * @param {Function} fn - the callback function
+ * @param {String|Array} source - the gamut source
+ * @return {Array} the gamut after apply the function to each element
+ */
 gamut.map = _curry(function (fn, source) {
   return gamut.apply(function (g) { return g.map(fn) }, source)
 })
 
+/**
+ * Filter the elements of a gamut
+ *
+ * The filter function will receive the elements in array-notation
+ *
+ * @name filter
+ * @function
+ * @param {Function} filter - the filter function
+ * @param {String|Array} source - the gamut source
+ * @return {Array} the gamut after filter the elements
+ */
 gamut.filter = _curry(function (fn, source) {
   return gamut.apply(function (g) { return g.filter(fn) }, source)
 })
 
+/**
+ * Convert a source to an array
+ *
+ * The source can be an array (it will return it without modification), a
+ * string with elements separated by spaces, commas or bars (`|`) or a single
+ * element (it will be wrapped inside an array)
+ *
+ * This function __does not perform any transformation__ of the array elements.
+ * and __it always return an array, even if its empty__.
+ *
+ * @name toArray
+ * @function
+ * @param {String|Array} source - the source
+ * @return {Array} the source as array
+ */
 gamut.split = function (source) {
   if (isArray(source)) return source
   else if (typeof source === 'string') return source.split(SEP)
   else if (source === null || typeof source === 'undefined') return []
   else return [ source ]
 }
-
-/**
- * Transpose a list of notes by an interval
- *
- * @name transpose
- * @function
- * @param {String|Array} interval - the interval to transpose
- * @param {String|Array|Array<Array>} source - the gamut
- * @return {Array<Integer>} the transposed notes
- */
-gamut.transpose = function (interval, source) {
-  var i = notation.arr(interval)
-  if (!i) return []
-  var isInterval = i.length === 3
-  return gamut.map(function (p) {
-    if (isInterval) return operator.add(i, p)
-    else if (p.length === 3) return operator.add(p, i)
-    else return null
-  }, source)
-}
-
-/**
- * Get the distances (in intervals) of the notes from a tonic
- *
- * __Important__: al pitch classes are converted to octave 0 before calculating
- * the distances.
- *
- * @name distances
- * @function
- * @param {String|Array} tonic - the note to calculate the interval from
- * @param {String|Array|Array<Array>} source - the notes
- * @return {Array<String>} the intervals
- *
- * @example
- * gamut.distance('D2', 'D2 E2 F2') // => ['1P', '2M', '3m']
- * // pitch classes are octave 0
- * gamut.distance('C', 'C2') // => ['15P']
- * gamut.distance('C2', 'C') // => ['-15P']
- */
-gamut.distances = function (tonic, source) {
-  var src = gamut.split(source)
-  tonic = tonic || src[0]
-  var t = notation.arr(tonic)
-  if (tonic && !t) return []
-  return gamut.map(function (p) {
-    return p ? operator.subtract(t, operator.setDefaultOctave(0, p)) : null
-  }, src)
-}
-
-/**
- * Get ascending gamut: remove nulls, duplications and sort by pitch (freq)
- *
- * @name ascending
- * @function
- * @param {String|Array} gamut - the gamut
- * @return {Array} the ascending gamut
- *
- * @example
- * gamut.ascending('E e D c') // => ['C', 'D', 'E']
- */
-gamut.ascending = gamut.apply(function (gamut) {
-  var heights = gamut.sort(operator.compare).map(operator.height)
-  return heights.reduce(function (uniq, value, index) {
-    if (index === 0 || heights[index - 1] !== value) uniq.push(gamut[index])
-    return uniq
-  }, [])
-})
 
 module.exports = gamut
