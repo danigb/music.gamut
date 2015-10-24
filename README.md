@@ -19,7 +19,15 @@ __Not released yet. I will be available via npm__
 
 You can read the [API documentation here](https://github.com/danigb/music.gamut/blob/master/API.md)
 
-Probably you will want some high level modules than this one. See [music.kit](https://github.com/danigb/music.kit)
+Probably you will want some high level modules than this one:
+
+- [music.transposer](https://github.com/danigb/music.transposer)
+- [music.harmonizer](https://github.com/danigb/music.harmonizer)
+- [music.pitchSet](https://github.com/danigb/music.pitchSet)
+- [music.scale](https://github.com/danigb/music.scale)
+- [music.chord](https://github.com/danigb/music.chord)
+
+Or use the complete distribution: [music.kit](https://github.com/danigb/music.kit)
 
 ## License
 
