@@ -5,7 +5,7 @@
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 [![npm version](https://img.shields.io/npm/v/music.gamut.svg)](https://www.npmjs.com/package/music.gamut)
 [![license](https://img.shields.io/npm/l/music.gamut.svg)](https://www.npmjs.com/package/music.gamut)
-[![music.kit](https://img.shields.io/badge/music-kit-yellow.svg)](https://github.com/danigb/music.kit)
+[![music.kit](https://img.shields.io/badge/music-kit-yellow.svg)](https://www.npmjs.com/package/music.kit)
 
 This is a small (3.2kb minified) library to help working with arrays of notes or intervals in a functional way.
 
@@ -13,7 +13,7 @@ This is part of [music.kit](https://github.com/danigb/music.kit) library, a full
 
 ## Install
 
-__Not released yet. I will be available via npm__
+Only available via npm: `npm i --save music.gamut`
 
 ## Usage
 
