@@ -6,9 +6,8 @@
   "scripts": {
     "test": "vows --spec test/*.js",
     "docs": "docme API.md",
-    "browserify": "browserify --full-paths index.js > dist/music.gamut.js && browserify --full-paths index.js | uglifyjs > dist/music.gamut.min.js",
-    "disc": "discify dist/music.gamut.min.js > dist/disc.html",
-    "dist": "npm run browserify && ls -all dist/",
+    "dist": "browserify index.js | uglifyjs > dist/music.gamut.min.js&& ls -all dist/",
+    "disc": "browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
     "coverage": "istanbul cover vows test/*.js",
     "cover": "npm run coverage && open ./coverage/lcov-report/index.html",
     "benchmarks": "node test/benchmarks/*.js",
@@ -36,6 +35,6 @@
     "vows": "^0.8.1"
   },
   "dependencies": {
-    "music.notation": "file:../notation"
+    "music.notation": "0.0.5"
   }
 }

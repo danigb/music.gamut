@@ -98,7 +98,7 @@ gamut.filter = _curry(function (fn, source) {
  */
 gamut.split = function (source) {
   if (isArray(source)) return source
-  else if (typeof source === 'string') return source.split(SEP)
+  else if (typeof source === 'string') return source.trim().split(SEP)
   else if (source === null || typeof source === 'undefined') return []
   else return [ source ]
 }

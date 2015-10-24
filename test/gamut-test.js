@@ -6,11 +6,20 @@ vows.describe('gamut').addBatch({
   'gamut main': function () {
     assert.deepEqual(gamut('c2 d#3 blah bb4 1P'), ['C2', 'D#3', null, 'Bb4', '1P'])
   },
+  'gamut split': function () {
+    assert.deepEqual(gamut.split('W |   X    Y  ,  Z '), ['W', 'X', 'Y', 'Z'])
+    assert.deepEqual(gamut.split('  A '), ['A'])
+    assert.deepEqual(gamut.split(['A', 'b']), ['A', 'b'])
+    assert.deepEqual(gamut.split(32), [ 32 ])
+    assert.deepEqual(gamut.split(), [])
+    assert.deepEqual(gamut.split(null), [])
+  },
   'gamut.apply': function () {
     var fn = function (g) { return g.concat([ [2, 1, 2, 0] ]) }
     assert.deepEqual(gamut.apply(fn, 'A'), ['A', 'E#2'])
     var addEsharp = gamut.apply(fn)
     assert.deepEqual(addEsharp('1, 2'), ['1P', '2M', 'E#2'])
+    assert.deepEqual(addEsharp([ [1, 2] ]), [ [ 1, 2 ], [ 2, 1, 2, 0 ] ])
   },
   'gamut.map': {
     'convert back to strings': function () {
