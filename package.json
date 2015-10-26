@@ -1,6 +1,6 @@
 {
   "name": "music.gamut",
-  "version": "0.0.2",
+  "version": "0.0.6",
   "description": "Manipulate group of music notes in a functional way",
   "main": "index.js",
   "scripts": {
@@ -20,10 +20,10 @@
   },
   "keywords": [
     "music",
-    "music.kit",
+    "gamut",
     "notes",
     "intervals",
-    "gamut"
+    "music.kit"
   ],
   "author": "danigb",
   "license": "MIT",
@@ -35,6 +35,6 @@
     "vows": "^0.8.1"
   },
   "dependencies": {
-    "music.notation": "0.0.5"
+    "music.notation": "0.0.x"
   }
 }
