@@ -103,4 +103,38 @@ gamut.split = function (source) {
   else return [ source ]
 }
 
+/**
+ * Remove all null values from the gamut
+ *
+ * @name compact
+ * @function
+ * @param {String|Array} source - the gamut
+ * @return {Array} the gamut without null values
+ *
+ * @example
+ * gamut.compact('C blah D') // => ['C', 'D']
+ */
+gamut.compact = function (source) {
+  return gamut(source).filter(function (i) { return i !== null })
+}
+
+/**
+ * Rotate the gamut
+ *
+ * @name rotate
+ * @function
+ * @param {Integer} count - the number of items
+ * @param {String|Array} source - the gamut
+ * @return {Array} the gamut rotated count times
+ *
+ * @example
+ * gamut.rotate(1, 'C D E') // => ['D', 'E', 'C']
+ */
+gamut.rotate = function (count, source) {
+  var g = gamut(source)
+  var len = g.length
+  var n = ((count % len) + len) % len
+  return g.slice(n, len).concat(g.slice(0, n))
+}
+
 module.exports = gamut

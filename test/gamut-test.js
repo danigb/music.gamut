@@ -38,5 +38,18 @@ vows.describe('gamut').addBatch({
     assert.deepEqual(gamut.filter(isIntrvl, '1 C 2m D3'), [ '1P', '2m' ])
     var intervals = gamut.filter(isIntrvl)
     assert.deepEqual(intervals('C2 D3 3 4#'), ['3M', '4A'])
+  },
+  'gamut.compact': function () {
+    assert.deepEqual(gamut.compact('C blah D'), [ 'C', 'D' ])
+    assert.deepEqual(gamut.compact(['f#', null, 'g']), [ 'F#', 'G' ])
+    assert.deepEqual(gamut.compact([[0, 0], null, [1, 1]]), [ [ 0, 0 ], [ 1, 1 ] ])
+  },
+  'gamut.rotate': function () {
+    assert.deepEqual(gamut.rotate(0, 'C D E'), ['C', 'D', 'E'])
+    assert.deepEqual(gamut.rotate(1, 'C D E'), ['D', 'E', 'C'])
+    assert.deepEqual(gamut.rotate(4, 'C D E'), ['D', 'E', 'C'])
+    assert.deepEqual(gamut.rotate(-1, 'C D E'), ['E', 'C', 'D'])
+    assert.deepEqual(gamut.rotate(-2, 'C D E'), ['D', 'E', 'C'])
+    assert.deepEqual(gamut.rotate(-5, 'C D E'), ['D', 'E', 'C'])
   }
 }).export(module)
