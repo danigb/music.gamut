@@ -14,6 +14,59 @@
 </div>
 <dl>
 <dt>
+<h4 class="name" id="compact"><span class="type-signature"></span>compact<span class="signature">(source)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Remove all null values from the gamut</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>source</code></td>
+<td class="type">
+<span class="param-type">String</span>
+|
+<span class="param-type">Array</span>
+</td>
+<td class="description last"><p>the gamut</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/music.gamut/blob/master/index.js">index.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/music.gamut/blob/master/index.js#L106">lineno 106</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>the gamut without null values</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Array</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>gamut.compact('C blah D') // => ['C', 'D']</code></pre>
+</dd>
+<dt>
 <h4 class="name" id="distances"><span class="type-signature"></span>distances<span class="signature">(tonic, source)</span><span class="type-signature"> &rarr; {Array.&lt;String>}</span></h4>
 </dt>
 <dd>
@@ -268,6 +321,66 @@ Type
 </dl>
 <h5>Example</h5>
 <pre class="prettyprint"><code>gamut('cb d3 e') // => [ 'Cb', 'D3', 'E' ]</code></pre>
+</dd>
+<dt>
+<h4 class="name" id="rotate"><span class="type-signature"></span>rotate<span class="signature">(count, source)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Rotate the gamut</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>count</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>the number of items</p></td>
+</tr>
+<tr>
+<td class="name"><code>source</code></td>
+<td class="type">
+<span class="param-type">String</span>
+|
+<span class="param-type">Array</span>
+</td>
+<td class="description last"><p>the gamut</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/music.gamut/blob/master/index.js">index.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/music.gamut/blob/master/index.js#L121">lineno 121</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>the gamut rotated count times</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Array</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>gamut.rotate(1, 'C D E') // => ['D', 'E', 'C']</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="toArray"><span class="type-signature"></span>toArray<span class="signature">(source)</span><span class="type-signature"> &rarr; {Array}</span></h4>
